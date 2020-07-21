@@ -1,0 +1,47 @@
+package com.jitu.demo;
+
+public class PrimeString {
+
+	static final int MOD = 1000000007;
+	
+	//checking prime or not
+	static boolean isPrime(String number)
+	{
+		int num = Integer.valueOf(number);
+		
+		for(int i=2; i*i <= num; i++)
+		{
+			if((num%i)==0)
+				return false;
+		}
+		return num > 1 ? true : false;
+	}
+	
+	//counting way to split string into prime number
+	static int countPrimeStrings(String number, int i)
+	{
+		if(i==0)
+			return 1;
+		
+		int count = 0;
+		//consider every suffix upto 6 digits
+		for(int j=1; j<=6; j++)
+		{
+			// number should not have leading zeros and it should be prime number
+			if(i-j>=0 && number.charAt(i-j)!='0' && isPrime(number.substring(i-j,i)))
+			{
+				count += countPrimeStrings(number, i-j);
+				count %= MOD;
+			}
+		}
+		return count;
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		String s1 = "3175";
+		int len = s1.length();
+		System.out.println(countPrimeStrings(s1, len));
+	}
+
+}
